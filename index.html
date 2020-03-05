@@ -27,7 +27,7 @@
 
 </head>
 
-<body style="background-color: ;">
+<body>
 
   <header role="banner">
     <nav class="navbar navbar-expand-lg  bg-dark">
@@ -72,6 +72,30 @@
         <div class="col-lg-12 text-center col-sm-12">
           <h1 class="mb-4" data-aos="fade-up" data-aos-delay="100">EscapeVape</h1>
           <h4 style="color: white;"><i>"Teens helping other teens quit."</i></h4>
+          <!-- Trigger/Open The Modal (credit to w3schools.com) -->
+          <button id="myBtn" style="border: 1em #FDC142 solid; border-radius: 1vh; margin-top: 2em; padding: 1vh; background-color:#FDC142;font-size: smaller;">Join The Mailing List</button>
+
+          <!-- The Modal -->
+          <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+              <div class="modal-header" style= "text-align: center; background-color: #0A92AC;">
+                <span class="close">&times;</span>
+              </div>
+              <div class="modal-body" style="color: black; background-color: #0A92AC;">
+                  <h2 id = "headerThang">Stay In Touch</h2>
+                  <p id= "headerThang2" style="color: black; text-align: center;">Subscribe to our newsletter to receive monthly updates on the progress of our organization!</p>           
+                <form action="/action_page.php" style="text-align: left; margin-top: 5vh;">
+                  <center>
+                  <input class = "buttonIN" style="border-radius: 10px; padding: 0 10px;" placeholder="Enter Your email here" type="text" name="email" id= "user_email">
+                  <input class ="buttonIN" type="button" value="Submit" onclick="save_user();">
+                </center>
+                </form>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
@@ -187,6 +211,61 @@
   <script src="js/aos.js"></script>
   <script src="js/main.js"></script>
 
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-database.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyCgHmrdtFPWaPtA4DrEjeeNAyrnsqlHmNs",
+      authDomain: "emaillist-ebf62.firebaseapp.com",
+      databaseURL: "https://emaillist-ebf62.firebaseio.com",
+      projectId: "emaillist-ebf62",
+      storageBucket: "emaillist-ebf62.appspot.com",
+      messagingSenderId: "804430013003",
+      appId: "1:804430013003:web:cfcc74cdf53094b75f23ce",
+      measurementId: "G-5CMLZT75RE"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+
+  <script>
+    var databaseRef = firebase.database().ref('users/');
+    var user_id = document.getElementById('user_id').value;
+    var user_email = document.getElementById('user_email').value;
+    
+    function save_user() {
+      var user_id = document.getElementById('user_id').value;
+      var user_email = document.getElementById('user_email').value;
+
+      var uid = firebase.database().ref().child('users').push().key;
+      
+      var data = {
+        user_id: uid,
+        user_id: user_id,
+        user_email: user_email
+      }
+      
+      var updates = {};
+      updates['/users/' + uid] = data;
+      firebase.database().ref().update(updates);
+      
+      alert('The user is created successfully!');
+      reload_page();
+    }
+
+    function reload_page(){
+      window.location.reload();
+    }
+
+  </script>
 </body>
 
 </html>
